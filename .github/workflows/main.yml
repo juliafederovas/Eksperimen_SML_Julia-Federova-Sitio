@@ -35,7 +35,7 @@ jobs:
 
       - name: Get latest MLflow run_id
         run: |
-          ID=$(ls -t mlruns/0 | grep -v "meta.yaml" | head -n 1 | tr -d '/')
+          ID=$(ls -t mlruns/0 | grep -v "meta.yaml" | head -n 1)
           echo "RUN_ID=$ID" >> $GITHUB_ENV
           echo "Ditemukan ID: $ID"
 
@@ -44,9 +44,7 @@ jobs:
 
       - name: Build Docker Model
         run: |
-          MODEL_PATH="mlruns/0/${{ env.RUN_ID }}/artifacts/model"
-          echo "Mencoba build dari: $MODEL_PATH"
-          mlflow models build-docker -m "$MODEL_PATH" -n "occupancy-classifier-prod" --install-mlflow
+          mlflow models build-docker -m mlruns/0/${{ env.RUN_ID }}/artifacts/model -n occupancy-classifier-prod --install-mlflow
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
