@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 import os
 
-mlflow.set_experiment("Occupancy_Final_Fix")
+mlflow.set_experiment("Final_Submission_Julia")
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 path_data = os.path.join(base_dir, "namadataset_preprocessing", "occupancy_processed.csv")
