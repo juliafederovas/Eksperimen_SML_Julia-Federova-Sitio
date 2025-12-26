@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.12.7
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.7'
+      - name: Check Env
+        run: |
+          python --version
+          pip --version
+      - name: Install dependencies
+        run: pip install pandas scikit-learn
+      - name: Run preprocessing
+        run: python preprocessing/automate_julia.py
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dataset-hasil-preprocessing
+          path: preprocessing/namadataset_preprocessing/
