@@ -44,8 +44,11 @@ jobs:
 
       - name: Build Docker Model
         run: |
-          MODEL_PATH=$(find mlruns/0 -maxdepth 1 -type d -not -path "mlruns/0" | head -n 1)/artifacts/model
-          echo "Building model from actual path: $MODEL_PATH"
+          RUN_ID=$(ls mlruns/0 | grep -v "meta.yaml" | head -n 1)
+          MODEL_PATH="mlruns/0/$RUN_ID/artifacts/model"
+          
+          echo "Memulai Build dari lokasi fisik: $MODEL_PATH"
+          
           mlflow models build-docker -m "$MODEL_PATH" -n "occupancy-classifier-prod" --install-mlflow
 
       - name: Log in to Docker Hub
@@ -55,9 +58,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Tag Docker Image
-        run: |
-          docker tag occupancy-classifier-prod:latest ${{ secrets.DOCKER_USERNAME }}/room-occupancy:latest
+        run: docker tag occupancy-classifier-prod:latest ${{ secrets.DOCKER_USERNAME }}/room-occupancy:latest
 
       - name: Push Docker Image
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/room-occupancy:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/room-occupancy:latest
