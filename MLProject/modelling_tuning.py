@@ -10,11 +10,10 @@ from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 import os
 
 # 1. Hubungkan ke DagsHub 
-os.environ['DAGSHUB_USERNAME'] = 'juliafederovas'
-os.environ['DAGSHUB_TOKEN'] = os.getenv("MLFLOW_TRACKING_PASSWORD")
-dagshub.init(repo_owner='juliafederovas', 
-             repo_name='Eksperimen_SML_Julia-Federova-Sitio', 
-             mlflow=True)
+dagshub_url = "https://dagshub.com/juliafederovas/Eksperimen_SML_Julia-Federova-Sitio.mlflow"
+mlflow.set_tracking_uri(dagshub_url)
+os.environ['MLFLOW_TRACKING_USERNAME'] = 'juliafederovas'
+os.environ['MLFLOW_TRACKING_PASSWORD'] = os.getenv("MLFLOW_TRACKING_PASSWORD")
 
 # 2. Set Eksperimen
 mlflow.set_experiment("Occupancy_Estimation_Skilled_Advance")
