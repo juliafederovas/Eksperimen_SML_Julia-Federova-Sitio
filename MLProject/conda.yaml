@@ -1,0 +1,13 @@
+name: occupancy_env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12.7
+  - pip
+  - pip:
+      - mlflow
+      - dagshub
+      - pandas
+      - scikit-learn
+      - matplotlib
+      - seaborn
