@@ -33,7 +33,9 @@ jobs:
           mlflow run MLProject --env-manager local
 
       - name: Get latest MLflow run_id
-        run: echo "RUN_ID=$(mlflow runs list --experiment-id 0 | head -n 3 | tail -n 1 | awk '{print $1}')" >> $GITHUB_ENV
+        run: |
+          RUN_ID=$(ls mlruns/0 | grep -v "meta.yaml" | head -n 1)
+          echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
 
       - name: Install Python dependencies
         run: pip install -r MLProject/requirements.txt
