@@ -44,11 +44,9 @@ jobs:
 
       - name: Build Docker Model
         run: |
-          MODEL_PATH=$(find mlruns/0 -name "model" -type d | head -n 1)
-          
-          echo "Model ditemukan di: $MODEL_PATH"
-
-          mlflow models build-docker -m "$MODEL_PATH" -n "occupancy-classifier-prod" --install-mlflow
+          MODEL_DIR=$(find mlruns/0 -name "MLmodel" -exec dirname {} \;)
+          echo "Building from: $MODEL_DIR"
+          mlflow models build-docker -m "$MODEL_DIR" -n "occupancy-classifier-prod" --install-mlflow
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
