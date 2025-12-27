@@ -44,9 +44,16 @@ jobs:
 
       - name: Build Docker Model
         run: |
-          MODEL_DIR=$(find mlruns/0 -name "MLmodel" -exec dirname {} \;)
-          echo "Building from: $MODEL_DIR"
-          mlflow models build-docker -m "$MODEL_DIR" -n "occupancy-classifier-prod" --install-mlflow
+          MODEL_DIR=$(find mlruns -name "MLmodel" -exec dirname {} \; | head -n 1)
+          
+          echo "Building from discovered path: $MODEL_DIR"
+          
+          if [ -n "$MODEL_DIR" ]; then
+            mlflow models build-docker -m "$MODEL_DIR" -n "occupancy-classifier-prod" --install-mlflow
+          else
+            echo "Error: MLmodel file not found in mlruns directory!"
+            exit 1
+          fi
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
