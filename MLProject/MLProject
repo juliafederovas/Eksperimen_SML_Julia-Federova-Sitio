@@ -1,5 +1,0 @@
-name: Room_Occupancy_Estimation
-conda_env: conda.yaml
-entry_points:
-  main:
-    command: "python modelling_tuning.py"

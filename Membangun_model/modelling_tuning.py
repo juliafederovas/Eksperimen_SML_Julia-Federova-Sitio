@@ -8,9 +8,11 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 import os
+import joblib
 
 # 1. Hubungkan ke DagsHub 
 dagshub.init(repo_owner='juliafederovas', repo_name='Eksperimen_SML_Julia-Federova-Sitio', mlflow=True)
+mlflow.set_tracking_uri("file:./mlruns")
 
 # 2. Set Eksperimen
 mlflow.set_experiment("Occupancy_Estimation_Skilled_Advance")
@@ -70,3 +72,9 @@ with mlflow.start_run(run_name="RandomForest_Tuning_Julia"):
     mlflow.sklearn.log_model(best_model, "model")
     
     print(f"Model dilatih dengan akurasi: {acc}")
+
+    path_model = os.path.join(base_dir, "model.pkl")
+    joblib.dump(best_model, path_model)
+    
+    print(f"Model dilatih dengan akurasi: {acc}")
+    print(f"File model sukses disimpan di: {path_model}")
