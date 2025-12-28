@@ -11,8 +11,16 @@ import os
 import joblib
 
 # 1. Hubungkan ke DagsHub 
-dagshub.init(repo_owner='juliafederovas', repo_name='Eksperimen_SML_Julia-Federova-Sitio', mlflow=True)
-mlflow.set_tracking_uri("file:./mlruns")
+token = os.getenv("MLFLOW_TRACKING_PASSWORD")
+
+if token:
+    dagshub.init(repo_owner='juliafederovas', 
+                 repo_name='Eksperimen_SML_Julia-Federova-Sitio', 
+                 mlflow=True)
+else: 
+    dagshub.init(repo_owner='juliafederovas', 
+                 repo_name='Eksperimen_SML_Julia-Federova-Sitio', 
+                 mlflow=True)
 
 # 2. Set Eksperimen
 mlflow.set_experiment("Occupancy_Estimation_Skilled_Advance")
