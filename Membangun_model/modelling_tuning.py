@@ -13,6 +13,9 @@ import joblib
 # 1. Hubungkan ke DagsHub 
 token = os.getenv("MLFLOW_TRACKING_PASSWORD")
 
+if os.getenv("MLFLOW_TRACKING_PASSWORD"):
+    os.environ["DAGSHUB_USER_TOKEN"] = os.getenv("MLFLOW_TRACKING_PASSWORD")
+
 if token:
     dagshub.init(repo_owner='juliafederovas', 
                  repo_name='Eksperimen_SML_Julia-Federova-Sitio', 
