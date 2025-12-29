@@ -11,18 +11,18 @@ import os
 import joblib
 import dagshub
 
-# 1. Hubungkan ke DagsHub 
-dagshub_token = os.getenv("MLFLOW_TRACKING_PASSWORD")
-if dagshub_token:
-    os.environ["DAGSHUB_USER_TOKEN"] = dagshub_token
-    print("Autentikasi DagsHub menggunakan token berhasil dideteksi.")
+# 1. Hubungkan ke DagsHub secara Manual
+repo_owner = 'juliafederovas'
+repo_name = 'Eksperimen_SML_Julia-Federova-Sitio'
+token = os.getenv("MLFLOW_TRACKING_PASSWORD")
 
-# Lanjutkan dengan init seperti biasa
-dagshub.init(
-    repo_owner='juliafederovas', 
-    repo_name='Eksperimen_SML_Julia-Federova-Sitio', 
-    mlflow=True
-)
+if token:
+    os.environ['MLFLOW_TRACKING_USERNAME'] = token
+    os.environ['MLFLOW_TRACKING_PASSWORD'] = token
+    mlflow.set_tracking_uri(f'https://dagshub.com/{repo_owner}/{repo_name}.mlflow')
+    print("Autentikasi DagsHub via Token Berhasil.")
+else:
+    dagshub.init(repo_owner=repo_owner, repo_name=repo_name, mlflow=True)
 
 # 2. Set Eksperimen
 mlflow.set_experiment("Occupancy_Estimation_Skilled_Advance")
