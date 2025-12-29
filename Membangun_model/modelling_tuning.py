@@ -9,21 +9,20 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 import os
 import joblib
+import dagshub
 
 # 1. Hubungkan ke DagsHub 
-token = os.getenv("MLFLOW_TRACKING_PASSWORD")
+dagshub_token = os.getenv("MLFLOW_TRACKING_PASSWORD")
+if dagshub_token:
+    os.environ["DAGSHUB_USER_TOKEN"] = dagshub_token
+    print("Autentikasi DagsHub menggunakan token berhasil dideteksi.")
 
-if os.getenv("MLFLOW_TRACKING_PASSWORD"):
-    os.environ["DAGSHUB_USER_TOKEN"] = os.getenv("MLFLOW_TRACKING_PASSWORD")
-
-if token:
-    dagshub.init(repo_owner='juliafederovas', 
-                 repo_name='Eksperimen_SML_Julia-Federova-Sitio', 
-                 mlflow=True)
-else: 
-    dagshub.init(repo_owner='juliafederovas', 
-                 repo_name='Eksperimen_SML_Julia-Federova-Sitio', 
-                 mlflow=True)
+# Lanjutkan dengan init seperti biasa
+dagshub.init(
+    repo_owner='juliafederovas', 
+    repo_name='Eksperimen_SML_Julia-Federova-Sitio', 
+    mlflow=True
+)
 
 # 2. Set Eksperimen
 mlflow.set_experiment("Occupancy_Estimation_Skilled_Advance")
