@@ -44,7 +44,7 @@ jobs:
         run: | 
           MODEL_DIR="mlruns/model"
           echo "Robot menemukan model di: $MODEL_DIR"
-          
+      
           mlflow models build-docker -m "$MODEL_DIR" -n "occupancy-classifier-prod" --install-mlflow
 
       - name: Log in to Docker Hub
