@@ -55,6 +55,26 @@ with mlflow.start_run(run_name="RandomForest_Tuning_Julia"):
     acc = accuracy_score(y_test, y_pred) 
     mlflow.log_params(grid_search.best_params_) 
     mlflow.log_metric("accuracy", acc)
+
+    # Artefak 1: Confusion Matrix
+    plt.figure(figsize=(8,6))
+    cm = confusion_matrix(y_test, y_pred)
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+    plt.title('Confusion Matrix - Julia')
+    path_cm = os.path.join(base_dir, "training_confusion_matrix.png")
+    plt.savefig(path_cm)
+    mlflow.log_artifact(path_cm) 
+    plt.close() 
+
+    # Artefak 2: Feature Importance Plot
+    plt.figure(figsize=(8,6))
+    feat_importances = pd.Series(best_model.feature_importances_, index=X.columns)
+    feat_importances.nlargest(10).plot(kind='barh')
+    plt.title('Feature Importance - Julia')
+    path_fi = os.path.join(base_dir, "feature_importance.png")
+    plt.savefig(path_fi)
+    mlflow.log_artifact(path_fi) 
+    plt.close()
     
     # Simpan model.pkl untuk submission ZIP
     path_model = os.path.join(base_dir, "model.pkl")

@@ -7,10 +7,10 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
 import os
 
-# 1. Hubungkan ke DagsHub (Gunakan akun Julia)
+# 1. Hubungkan ke DagsHub 
 dagshub.init(repo_owner='juliafederovas', repo_name='Eksperimen_SML_Julia-Federova-Sitio', mlflow=True)
 
-# 2. Set Eksperimen (Gunakan nama yang berbeda dari tuning agar rapi)
+# 2. Set Eksperimen 
 mlflow.set_experiment("Occupancy_Estimation_Baseline")
 base_dir = os.path.dirname(os.path.abspath(__file__))
 path_data = os.path.join(base_dir, "namadataset_preprocessing", "occupancy_processed.csv")
@@ -24,7 +24,7 @@ X = df.drop(columns=['Room_Occupancy_Count'])
 y = df['Room_Occupancy_Count']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# 4. Baseline Training (Tanpa Hyperparameter Tuning)
+# 4. Baseline Training 
 with mlflow.start_run(run_name="RandomForest_Baseline_Julia"):
     model = RandomForestClassifier(random_state=42)
     model.fit(X_train, y_train)
