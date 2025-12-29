@@ -42,13 +42,8 @@ jobs:
 
       - name: Build Docker Image
         run: | 
-          MODEL_DIR=$(find mlruns -name "MLmodel" -exec dirname {} \; | head -n 1)
+          MODEL_DIR="mlruns/model"
           echo "Robot menemukan model di: $MODEL_DIR"
-          
-          if [ -z "$MODEL_DIR" ]; then
-            echo "Error: Folder model tidak ditemukan!"
-            exit 1
-          fi
           
           mlflow models build-docker -m "$MODEL_DIR" -n "occupancy-classifier-prod" --install-mlflow
 

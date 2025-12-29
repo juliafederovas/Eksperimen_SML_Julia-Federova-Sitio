@@ -11,6 +11,9 @@ import os
 import joblib
 import dagshub
 
+grid_search.fit(X_train, y_train)
+best_model = grid_search.best_estimator_
+
 # 1. Hubungkan ke DagsHub secara Manual
 repo_owner = 'juliafederovas'
 repo_name = 'Eksperimen_SML_Julia-Federova-Sitio'
@@ -20,6 +23,7 @@ if token:
     os.environ['MLFLOW_TRACKING_USERNAME'] = token
     os.environ['MLFLOW_TRACKING_PASSWORD'] = token
     mlflow.set_tracking_uri(f'https://dagshub.com/{repo_owner}/{repo_name}.mlflow')
+    mlflow.sklearn.save_model(best_model, "mlruns/model")
     print("Autentikasi DagsHub via Token Berhasil.")
 else:
     dagshub.init(repo_owner=repo_owner, repo_name=repo_name, mlflow=True)
