@@ -36,7 +36,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add Membangun_model/namadataset_preprocessing/occupancy_processed.csv
+          git add preprocessing/namadataset_preprocessing/occupancy_processed.csv
           git commit -m "Update processed dataset from GitHub Actions" || echo "No changes to commit"
           git push
 
