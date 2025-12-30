@@ -2,6 +2,6 @@ global:
   scrape_interval: 5s 
 
 scrape_configs:
-  - job_name: 'ml_model_exporter'
+  - job_name: 'python-ml-app'
     static_configs:
-      - targets: ['localhost:8000'] 
+      - targets: ['localhost:8000']
